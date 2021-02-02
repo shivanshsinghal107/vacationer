@@ -1,0 +1,14 @@
+.foot{
+    text-align: center;
+    background-color: #343a40;
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+i{
+    color: white;
+}
+i:hover{
+    color: #343a40;
+    background-color: white;
+}

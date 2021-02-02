@@ -1,0 +1,33 @@
+.citycontainer{
+    margin-top: 2%;
+}
+
+.place-button{
+    margin-left: 3%;
+}
+
+.last{
+    width: 50%;
+    height: auto;
+}
+
+.jumbotron{
+    background-color: rgb(255, 202, 202);
+}
+
+.jumbotron h1{
+    color: rgb(255, 47, 47);
+}
+
+.jumbotron p{
+    color: rgb(80, 80, 80);
+}
+
+.jumbotron b{
+    color: black;
+}
+
+.jumbotron img{
+    width: 7%;
+    float: right;
+}
