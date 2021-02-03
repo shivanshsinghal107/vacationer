@@ -15,22 +15,23 @@ export default class Place extends Component{
             website: "",
             lat: "",
             lng: "",
+            phone: "",
         }
 
         this.place_id = this.props.place_info.place_id;
-        this.apiKey = "AIzaSyCD6irhf_cJoK_6l-GkU1T2rw1PS7NqsBc";
-        this.fetchImages = this.fetchImages.bind(this);
+        this.apiKey = "AIzaSyDzys1ur3d0iAEH_SWL_1s7DHmS2esyQSo";
+        this.fetchDetails = this.fetchDetails.bind(this);
     }
 
     componentDidMount() {
         console.log(this.props.place_info);
-        this.fetchImages();
+        this.fetchDetails();
     }
 
-    fetchImages() {
-        var detail_url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${this.place_id}&fields=geometry,photos,formatted_phone_number,url,website,opening_hours,price_level&key=${this.apiKey}`;
+    fetchDetails() {
+        const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${this.place_id}&fields=geometry,photos,formatted_phone_number,url,website,opening_hours,price_level&key=${this.apiKey}`;
         var imgs = [];
-        fetch(detail_url)
+        fetch(url)
         .then((response) => response.json())
         .then((data) => {
             console.log(data);
@@ -45,7 +46,8 @@ export default class Place extends Component{
                 url: data['result']['url'],
                 website: data['result']['website'],
                 lat: data['result']['geometry']['location']['lat'],
-                lng: data['result']['geometry']['location']['lng']
+                lng: data['result']['geometry']['location']['lng'],
+                phone: data['result']['formatted_phone_number']
             });
             console.log(data);
             console.log(imgs);
@@ -72,6 +74,8 @@ export default class Place extends Component{
                     img11={this.state.images[10]}
                     img12={this.state.images[11]}
                 />
+                {this.state.phone ? (<h4>Contact: {this.state.phone}</h4>) : ""}
+                <br />
                 <iframe
                     width="100%"
                     height="360"
