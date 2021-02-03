@@ -1,4 +1,3 @@
-import React,{Component} from 'react';
 import '../Assets/css/gallery.css';
 
 const Gallery = (props) => {
