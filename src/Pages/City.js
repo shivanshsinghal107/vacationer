@@ -20,23 +20,31 @@ export default class City extends Component{
             place_info: [],
             lat: "",
             long: "",
+            city: "",
         }
 
         var dest = `${this.props.city} city point of interest`;
         var rest = `restaurants in ${this.props.city}`;
         this.place = dest.split(' ').join('+');
         this.restaurant = rest.split(' ').join('+');
-        this.apiKey = "AIzaSyCD6irhf_cJoK_6l-GkU1T2rw1PS7NqsBc";
+        this.apiKey = "AIzaSyDzys1ur3d0iAEH_SWL_1s7DHmS2esyQSo";
         this.fetchPlaces = this.fetchPlaces.bind(this);
+        this.fetchRestaurants = this.fetchRestaurants.bind(this);
         this.renderCity = this.renderCity.bind(this);
         this.renderPlace = this.renderPlace.bind(this);
         this.rankPlaces = this.rankPlaces.bind(this);
-        this.fetchRestaurants = this.fetchRestaurants.bind(this);
+        this.handleFilterChange = this.handleFilterChange.bind(this);
     }
 
     componentDidMount() {
         console.log(this.props.city);
         this.fetchPlaces();
+        this.rankPlaces();
+    }
+
+    handleFilterChange() {
+        var type = document.getElementById("types").value;
+        (type == "places") ? this.fetchPlaces() : this.fetchRestaurants();
     }
 
     fetchPlaces() {
@@ -113,7 +121,10 @@ export default class City extends Component{
                     var covid_results = cov_data;
                 }
                 console.log(covid_results);
-                this.setState({ covid: covid_results });
+                this.setState({
+                    covid: covid_results,
+                    city: city
+                });
             });
             this.map = `https://www.google.com/maps/embed/v1/search?key=${this.apiKey}&q=${this.place}`;
             console.log(final);
@@ -169,15 +180,17 @@ export default class City extends Component{
     renderPlace() {
         //console.log(this.state.place_id);
         return (
-            <Place place_info={this.state.place_info} />
+            <Place place_info={this.state.place_info} city={this.state.city} />
         );
     }
 
-    rankPlaces(param) {
-        if(param == "rating") {
+    rankPlaces() {
+        var filter = document.getElementById("ranking").value;
+        console.log(filter);
+        if(filter == "rating") {
             const sortedPlaces = [].concat(this.state.places).sort((a, b) => a.rating < b.rating ? 1 : -1);
             this.setState({ places: sortedPlaces });
-        } else {
+        } else if(filter == "num_rating") {
             const sortedPlaces = [].concat(this.state.places).sort((a, b) => a.num_ratings < b.num_ratings ? 1 : -1);
             this.setState({ places: sortedPlaces });
         }
@@ -218,11 +231,16 @@ export default class City extends Component{
                     allowFullScreen
                 />
                <h2>The best Places to visit:</h2>
-               <button className="btn btn-primary" onClick={() => this.rankPlaces("rating")}>Rank by Rating</button>
+               <select id="ranking" className="form-select" aria-label="Rank by" onChange={() => this.rankPlaces()}>
+                   <option value="no_rank" selected>No Rankings</option>
+                   <option value="rating">Rating</option>
+                   <option value="num_rating">No. of Ratings</option>
+               </select>
                <br/><br/>
-               <button className="btn btn-primary" onClick={() => this.rankPlaces("num_rating")}>Rank by Number of Rating</button>
-               <br/><br/>
-               <button className="btn btn-primary" onClick={() => this.fetchRestaurants()}>Restaurants</button>
+               <select id="types" className="form-select" aria-label="Types" onChange={() => this.handleFilterChange()}>
+                   <option value="places" selected>Places</option>
+                   <option value="restaurants">Restaurants</option>
+               </select>
                {
                     this.state.places.map((val, i) => {
                         return (
