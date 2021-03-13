@@ -245,6 +245,15 @@ export default class City extends Component{
                     this.state.places.map((val, i) => {
                         return (
                             <>
+                            
+                            <div class='card' onClick={(e) => {
+                                            e.preventDefault();
+                                            this.setState({
+                                                placeClicked: true,
+                                                place_info: val
+                                            });
+                                            Redirect("/Place")
+                                        }}>
                                 <Card
                                     key={i}
                                     place_id={val.place_id}
@@ -254,22 +263,11 @@ export default class City extends Component{
                                     rating={val.rating}
                                     num_ratings={val.num_ratings}
                                     open_now={val.open_now}
+
                                 />
-                                <div className="place-button">
-                                    <button
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            this.setState({
-                                                placeClicked: true,
-                                                place_info: val
-                                            });
-                                            Redirect("/Place")
-                                        }}
-                                        className="btn btn-primary"
-                                    >
-                                        See Place
-                                    </button>
-                                </div>
+                            </div>
+                                
+                                
                             </>
                         )
                     })

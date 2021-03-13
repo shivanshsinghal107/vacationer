@@ -84,7 +84,7 @@ export default class Home extends Component {
               id="place"
               placeholder="Place Name"
             />
-            <br />
+            
             <Link
               //   to={"/City"}
               onClick={(e) => {
@@ -95,7 +95,8 @@ export default class Home extends Component {
                 Redirect("/City");
               }}
             >
-              CLICK TO SEE
+              <br/>
+             <button className='btn btn-primary btn-md'>CLICK TO SEE</button> 
             </Link>
           </div>
         </div>
